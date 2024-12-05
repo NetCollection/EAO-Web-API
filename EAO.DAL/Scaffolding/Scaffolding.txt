@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Data Source=10.2.93.194;Initial Catalog=EAO_NS;User ID=CRM_All;Password=RCXDEVTeam@2024;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -f
