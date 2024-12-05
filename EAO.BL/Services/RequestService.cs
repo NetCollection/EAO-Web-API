@@ -10,6 +10,7 @@ using EAO.BL.DTOs.Ticket;
 using EAO.BL.DTOs.Request;
 using EAO.BL.DTOs.Validation;
 using System.Net.Sockets;
+using EAO.BL.DTOs.Patient;
 
 namespace EAO.BL.Services
 {
@@ -18,18 +19,15 @@ namespace EAO.BL.Services
         private readonly EaoNsContext _context;
         private readonly TicketService _ticketService;
         private readonly CallerService _callerService;
-        public RequestService(EaoNsContext eaoNsContext, TicketService ticketService, CallerService callerService)
+        private readonly PatientService _patientService;
+
+        public RequestService(EaoNsContext eaoNsContext, TicketService ticketService, CallerService callerService, PatientService patientService)
         {
             _context = eaoNsContext;
             _ticketService = ticketService;
             _callerService = callerService;
+            _patientService = patientService;
         }
-
-
-
-
-
-
 
         public ValidationMassageWithValueDto Add(AddRequestDto addRequestDto)
         {
@@ -56,12 +54,35 @@ namespace EAO.BL.Services
             };
             var ticketId = _ticketService.Add(addTicketDto).ValueId;
 
+            //Add Patient
+
+            var addPatientDto = new AddPatientDto
+            {
+                Age = addRequestDto.Age,
+                FirstName = addRequestDto.FirstName,
+                FullName = addRequestDto.FullName,
+                GenderId = addRequestDto.GenderId,
+                HospitalName1 = addRequestDto.HospitalName1,
+                HospitalName2 = addRequestDto.HospitalName2,
+                HospitalName3 = addRequestDto.HospitalName3,
+                InjuryType = addRequestDto.InjuryType,
+                NationalID = addRequestDto.NationalID,
+                PassportID = addRequestDto.PassportID,
+                NationalityId= addRequestDto.NationalityId,
+                PatientPhone = addRequestDto.PatientPhone,
+                TicketId= ticketId,
+            };
+
+            _patientService.Add(addPatientDto);
+
+
             return new ValidationMassageWithValueDto
             {
                 HasValidation = false,
-                Massage = "-- Saved Successfully",
-               // ValueId = (int)ticket.Id
+                Massage = "Request Saved Successfully",
+                ValueId = (int)ticketId
             };
+
         }
 
 

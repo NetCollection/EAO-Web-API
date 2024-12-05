@@ -1,4 +1,5 @@
-﻿using EAO.BL.DTOs.Ticket;
+﻿using EAO.BL.DTOs.Request;
+using EAO.BL.DTOs.Ticket;
 using EAO.BL.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,24 +16,24 @@ namespace EAO.Api.Controllers
         }
 
 
-        //[HttpPost]
-        //[Route("SaveTicket")]
-        //[Produces("application/json")]
-        //public IActionResult SaveTicket(AddTicketDto addTicketDto)
-        //{
-        //    if (addTicketDto == null) return BadRequest("Ticket data is required.");
+        [HttpPost]
+        [Route("AddRequest")]
+        [Produces("application/json")]
+        public IActionResult AddRequest(AddRequestDto addRequestDto)
+        {
+            if (addRequestDto == null) return BadRequest("Ticket data is required.");
 
-        //    var response = _requestService.Add(addTicketDto);
+            var response = _requestService.Add(addRequestDto);
 
-        //    if (!response.HasValidation)
-        //    {
-        //        return Ok(response.ValueId);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest(response.Massage);
-        //    }
-        //}
+            if (!response.HasValidation)
+            {
+                return Ok(new {requestId= response.ValueId });
+            }
+            else
+            {
+                return BadRequest(response.Massage);
+            }
+        }
 
 
 
