@@ -74,6 +74,11 @@ builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<GovernorateService>();
 builder.Services.AddScoped<AreaService>();
 builder.Services.AddScoped<IncidentService>();
+builder.Services.AddScoped<TicketService>();
+builder.Services.AddScoped<CallerService>();
+builder.Services.AddScoped<PatientService>();
+builder.Services.AddScoped<RequestService>();
+
 
 
 
