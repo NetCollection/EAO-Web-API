@@ -1,5 +1,5 @@
 ﻿using EAO.BL.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EAO.Api.Controllers
@@ -7,6 +7,7 @@ namespace EAO.Api.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class QuestionController : ControllerBase
     {
         private readonly QuestionService _questionService;
@@ -22,9 +23,9 @@ namespace EAO.Api.Controllers
         [Produces("application/json")]
         public IActionResult GetQuestion()
         {
-            var list=_questionService.GetQuestionList().ToList();
+            var list = _questionService.GetQuestionList().ToList();
 
-            return Ok(list);    
+            return Ok(list);
         }
 
         [HttpGet]
@@ -33,7 +34,7 @@ namespace EAO.Api.Controllers
         public IActionResult GetQuestionFormatList()
         {
             var list = _questionService.GetQuestionList()
-                .Select(e=>e.Format).Distinct()
+                .Select(e => e.Format).Distinct()
                 .ToList();
 
             return Ok(list);
@@ -46,7 +47,7 @@ namespace EAO.Api.Controllers
         public IActionResult GetQuestionByFormat(string format)
         {
             var list = _questionService.GetQuestionList()
-                .Where(e=>e.Format== format)
+                .Where(e => e.Format == format)
                 .ToList();
 
             return Ok(list);

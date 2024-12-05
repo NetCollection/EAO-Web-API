@@ -1,9 +1,7 @@
-using EAO.BL.DTOs.Question;
 using EAO.BL.Services;
 using EAO.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +72,8 @@ builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<GovernorateService>();
 builder.Services.AddScoped<AreaService>();
 builder.Services.AddScoped<IncidentService>();
+builder.Services.AddScoped<LoginService>();
+
 
 
 
