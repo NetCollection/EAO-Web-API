@@ -70,20 +70,22 @@ namespace EAO.Api.Controllers
                 //return flag;
                 if (flag == true)
                 {
+                    int expiredTime =int.Parse( _configuration.GetSection("AppSettings:ExpiredTime").Value);
+                    string KeyToken = _configuration.GetSection("AppSettings:Token").Value;
                     var userExist = await _LoginService.Login(userLoginClass.UName);
                     if (userExist != null)
                     {
                         List<Claim> claims = new List<Claim>
                             {
                                 new Claim(ClaimTypes.Name, userExist.UName.ToString()),
-                                new Claim(ClaimTypes.Role,userExist.roleId!.ToString()),
+                                new Claim(ClaimTypes.Role,userExist.roleId.HasValue.ToString()),
                                  new Claim(ClaimTypes.PrimarySid,userExist.Id.ToString()),
 
                                 new Claim(ClaimTypes.Email,userExist.Email.ToString()),
-                                new Claim(ClaimTypes.Sid,userExist.govId.ToString()),
+                                new Claim(ClaimTypes.Sid,userExist.govId.HasValue.ToString()),
 
                             };
-                        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+                        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KeyToken));
                         //if (key.Key.Length>64)
                         //{
 
@@ -92,7 +94,7 @@ namespace EAO.Api.Controllers
                         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
                         {
                             Subject = new ClaimsIdentity(claims),
-                            Expires = DateTime.UtcNow.AddHours(24),
+                            Expires = DateTime.UtcNow.AddHours(expiredTime),
                             SigningCredentials = creds
                         };
                         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
