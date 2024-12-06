@@ -1034,14 +1034,13 @@ public partial class EaoNsContext : DbContext
 
         modelBuilder.Entity<Ticket>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("tickets", tb => tb.HasTrigger("setDailySno"));
+            entity.ToTable("tickets", tb => tb.HasTrigger("setDailySno"));
 
             entity.HasIndex(e => new { e.CallSource, e.Area, e.Governorate, e.CaseType, e.CaseSubType, e.NoticeStatus, e.DailySno, e.DisconnectCall, e.FollowUp, e.NoticeStatusEnd }, "NonClusteredIndex-20230329-141542");
 
             entity.HasIndex(e => e.CallerId, "NonClusteredIndex-20240522-000720");
 
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Area).HasColumnName("area");
             entity.Property(e => e.CallConvertComment).HasMaxLength(150);
             entity.Property(e => e.CallConvertReason).HasDefaultValueSql("(NULL)");
@@ -1066,9 +1065,6 @@ public partial class EaoNsContext : DbContext
                 .HasMaxLength(60)
                 .HasColumnName("EAOCode");
             entity.Property(e => e.Governorate).HasColumnName("governorate");
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
             entity.Property(e => e.IncidentLocation)
                 .HasMaxLength(250)
                 .HasColumnName("incidentLocation");
