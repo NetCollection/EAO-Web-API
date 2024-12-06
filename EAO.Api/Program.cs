@@ -1,7 +1,11 @@
 using EAO.BL.Services;
 using EAO.DAL.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,7 +69,29 @@ builder.Services.AddSwaggerGen(c =>
 //Add Sql Server Connection
 builder.Services.AddDbContext<EaoNsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("connectionSqlServer")));
-
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = false // you dont want to validate lifetime 
+                                 //ValidateIssuer = true,
+                                 //ValidateAudience = true,
+                                 //ValidAudience = Configuration["JWT:ValidAudience"],
+                                 //ValidIssuer = Configuration["JWT:ValidIssuer"],
+                                 //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+    };
+});
 
 //Regester Services
 builder.Services.AddScoped<QuestionService>();
@@ -87,6 +113,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

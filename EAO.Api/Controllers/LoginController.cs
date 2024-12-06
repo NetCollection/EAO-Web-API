@@ -33,28 +33,34 @@ namespace EAO.Api.Controllers
             {
                 bool flag;
                 string domainAndUsername = string.Concat("Contactcntr", "\\", userLoginClass.UName.ToLower());
-                DirectoryEntry entry = new DirectoryEntry("LDAP://contactcntr.raya.corp", domainAndUsername, userLoginClass.PWD.ToLower());
+                DirectoryEntry entry = new DirectoryEntry("LDAP://contactcntr.raya.corp", domainAndUsername, userLoginClass.PWD);
                 try
                 {
-                    object obj = entry.NativeObject;
+                    //object obj = entry.NativeObject;
                     DirectorySearcher search = new DirectorySearcher(entry)
                     {
                         Filter = string.Concat("(SAMAccountName=", userLoginClass.UName.ToLower(), ")")
                     };
                     search.PropertiesToLoad.Add("cn");
-                    SearchResult result = search.FindOne();
+                    var result = search.FindOne();
 
                     if (result == null)
                     {
                         flag = false;
-                        //  return flag;
+                               return NotFound("UserName or Password Not Vaild For LDAB");
+                    }
+                    else
+                    {
+                        flag = true;
                     }
                 }
                 catch (Exception exception)
                 {
                     flag = false;
+                    return NotFound("UserName or Password Not Vaild For LDAB");
+
                 }
-                flag = true;
+               
                 //return flag;
                 if (flag == true)
                 {
@@ -72,6 +78,10 @@ namespace EAO.Api.Controllers
 
                             };
                         SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+                        //if (key.Key.Length>64)
+                        //{
+
+                        //}
                         SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
                         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
                         {
