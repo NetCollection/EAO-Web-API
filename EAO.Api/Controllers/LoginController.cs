@@ -4,6 +4,7 @@ using EAO.BL.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.DirectoryServices;
+using System.DirectoryServices.Protocols;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -32,22 +33,27 @@ namespace EAO.Api.Controllers
             try
             {
                 bool flag;
-                string domainAndUsername = string.Concat("Contactcntr", "\\", userLoginClass.UName.ToLower());
+                var uname = userLoginClass.UName.ToLower();
+                string domainAndUsername = string.Concat("Contactcntr", "\\", uname);
                 DirectoryEntry entry = new DirectoryEntry("LDAP://contactcntr.raya.corp", domainAndUsername, userLoginClass.PWD);
                 try
                 {
                     //object obj = entry.NativeObject;
                     DirectorySearcher search = new DirectorySearcher(entry)
                     {
-                        Filter = string.Concat("(SAMAccountName=", userLoginClass.UName.ToLower(), ")")
+                        Filter = string.Concat("(SAMAccountName=", uname, ")")
                     };
                     search.PropertiesToLoad.Add("cn");
-                    var result = search.FindOne();
+                    
+                    
+                        var result = search.FindOne();
 
+                   
+                    
                     if (result == null)
                     {
                         flag = false;
-                               return NotFound("UserName or Password Not Vaild For LDAB");
+                               return NotFound("The user name or password is incorrect");
                     }
                     else
                     {
@@ -57,7 +63,7 @@ namespace EAO.Api.Controllers
                 catch (Exception exception)
                 {
                     flag = false;
-                    return NotFound("UserName or Password Not Vaild For LDAB");
+                    return NotFound("The user name or password is incorrect");
 
                 }
                

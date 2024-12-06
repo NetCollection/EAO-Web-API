@@ -1,5 +1,6 @@
 ﻿using EAO.BL.DTOs.User;
 using EAO.DAL.Models;
+using System.Reflection.PortableExecutable;
 
 namespace EAO.BL.Services
 {
@@ -36,7 +37,6 @@ namespace EAO.BL.Services
             return await Task.FromResult(userVM);
 
         }
-
 
     }
 }
