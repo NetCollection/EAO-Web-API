@@ -13,6 +13,8 @@ namespace EAO.BL.DTOs.Request
         public string CallerName { get; set; }
         public string CallerPhone { get; set; }
         public string CallerOtherPhone { get; set; }
+        public string CreatedBy { get; set; }
+
 
         //Patients
         public int GenderId { get; set; }
