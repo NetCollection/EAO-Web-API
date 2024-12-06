@@ -1,12 +1,15 @@
 ﻿using EAO.BL.DTOs.Request;
 using EAO.BL.DTOs.Ticket;
 using EAO.BL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EAO.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class RequestController : ControllerBase
     {
         private readonly RequestService _requestService;
