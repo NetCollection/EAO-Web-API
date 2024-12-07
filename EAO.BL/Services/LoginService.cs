@@ -17,26 +17,25 @@ namespace EAO.BL.Services
             UserVM userVM = new UserVM();
 
             var user = _context.Users.Where(A => A.Name.ToLower() == uname.ToLower() && A.Active == true).FirstOrDefault();
+
             if (user != null)
             {
-                userVM.UName = user.Name;
-                userVM.ar_name = user.ArName;
+                userVM.UserName = user.Name;
+                userVM.Ar_name = user.ArName;
                 userVM.Email = user.Email;
-                userVM.regionId = user.RegionId;
-                userVM.roleId = user.RoleId;
-                userVM.govId = user.GovId;
+                userVM.RegionId = user.RegionId;
+                userVM.RoleId = user.RoleId;
+                userVM.GovId = user.GovId;
                 userVM.Id = user.Id;
 
-
-
             }
-            else
-            {
-                return new UserVM();
-            }
+
             return await Task.FromResult(userVM);
 
+
         }
+
+
 
     }
 }

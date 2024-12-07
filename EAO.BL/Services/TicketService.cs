@@ -28,7 +28,7 @@ namespace EAO.BL.Services
 
             var ticket = new Ticket
             {
-                CallSource = 11397,//lookup 1000
+                CallSource = 11397,
                 Area = addTicketDto.AreaId,
                 Governorate = addTicketDto.GovernorateId,
                 CaseType = 6,
@@ -36,7 +36,7 @@ namespace EAO.BL.Services
                 Priority = 88,
                 IncidentLocation = addTicketDto.Address,
                 CallerId = addTicketDto.CallerId,
-                CreatedBy = MobileApp,
+                CreatedBy = addTicketDto.CreatedBy,
                 CreatedAt = DateTime.Now,
             };
 

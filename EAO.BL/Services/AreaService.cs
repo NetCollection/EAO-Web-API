@@ -13,10 +13,10 @@ namespace EAO.BL.Services
         }
 
 
-        public IQueryable<SelectItemDto> GetArea(int GovernorateId)
+        public IQueryable<SelectItemDto> GetAreaList(int governorateId)
         {
             var list = _context.Lookups.AsNoTracking()
-                .Where(e => e.Parent == GovernorateId
+                .Where(e => e.Parent == governorateId
                 && e.Type == "area")
                 .Select(e => new SelectItemDto
                 {
@@ -27,7 +27,14 @@ namespace EAO.BL.Services
             return list;
         }
 
+        //Bool
+        public bool IsAreaValid(int areaId,int governorateId)
+        {
+            var isValid = GetAreaList(governorateId).AsEnumerable()
+                .Any(e => e.Id == areaId);
 
+            return isValid;
+        }
 
 
     }

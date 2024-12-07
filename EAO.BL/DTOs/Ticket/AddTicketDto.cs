@@ -13,5 +13,8 @@ namespace EAO.BL.DTOs.Ticket
         public string Address { get; set; }
         public int SubType { get; set; }
         public int CallerId { get; set; }
+
+        public string CreatedBy { get; set; } = string.Empty;
+
     }
 }

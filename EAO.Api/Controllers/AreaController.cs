@@ -1,6 +1,5 @@
 ﻿using EAO.BL.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EAO.Api.Controllers
@@ -22,9 +21,17 @@ namespace EAO.Api.Controllers
         [Produces("application/json")]
         public IActionResult Governorates(int GovernorateId)
         {
-            var list = _areaService.GetArea(GovernorateId).ToList();
+            try
+            {
+                var list = _areaService.GetAreaList(GovernorateId).ToList();
 
-            return Ok(list);
+                return Ok(list);
+
+            }
+            catch (Exception ex)
+            {
+                return Problem();
+            }
         }
 
 

@@ -11,5 +11,7 @@ namespace EAO.BL.DTOs.Caller
         public string CallerName { get; set; }
         public string CallerPhone { get; set; }
         public string CallerOtherPhone { get; set; }
+
+        public string CreatedBy { get; set; } = string.Empty;
     }
 }

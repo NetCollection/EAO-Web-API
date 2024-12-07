@@ -1,6 +1,5 @@
 ﻿using EAO.BL.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EAO.Api.Controllers
@@ -23,9 +22,17 @@ namespace EAO.Api.Controllers
         [Produces("application/json")]
         public IActionResult Governorates()
         {
-            var list = _governorateService.GetGovernorates().ToList();
+            try
+            {
+                var list = _governorateService.GetGovernorateList().AsEnumerable();
 
-            return Ok(list);
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return Problem();
+            }
+
         }
     }
 }

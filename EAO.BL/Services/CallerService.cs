@@ -17,7 +17,7 @@ namespace EAO.BL.Services
 
         //Add
 
-        public ValidationMassageWithValueDto Add(AddCallerDto addCallerDto,string CreatedBy)
+        public ValidationMassageWithValueDto Add(AddCallerDto addCallerDto)
         {
             var caller = new Caller
             {
@@ -25,7 +25,7 @@ namespace EAO.BL.Services
                 CallerPhone = addCallerDto.CallerPhone,
                 CallerOtherPhones = addCallerDto.CallerOtherPhone,
                 CreatedAt = DateTime.Now,
-                CreatedBy = CreatedBy, 
+                CreatedBy = addCallerDto.CreatedBy, 
             };
 
             _context.Callers.Add(caller);

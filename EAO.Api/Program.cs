@@ -69,6 +69,9 @@ builder.Services.AddSwaggerGen(c =>
 //Add Sql Server Connection
 builder.Services.AddDbContext<EaoNsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("connectionSqlServer")));
+
+
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -94,11 +97,15 @@ builder.Services.AddAuthentication(options =>
 });
 
 //Regester Services
+builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<GovernorateService>();
 builder.Services.AddScoped<AreaService>();
 builder.Services.AddScoped<IncidentService>();
-builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<CallerService>();
+builder.Services.AddScoped<TicketService>();
+builder.Services.AddScoped<PatientService>();
+builder.Services.AddScoped<RequestService>();
 
 
 
@@ -106,11 +113,14 @@ builder.Services.AddScoped<LoginService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

@@ -22,5 +22,8 @@ namespace EAO.BL.DTOs.Patient
         public string PatientPhone { get; set; }
 
         public int TicketId { get; set; }
+
+        public string CreatedBy { get; set; } = string.Empty;
+
     }
 }

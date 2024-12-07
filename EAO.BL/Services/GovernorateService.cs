@@ -12,8 +12,8 @@ namespace EAO.BL.Services
             _context = eaoNsContext;
         }
 
-
-        public IQueryable<SelectItemDto> GetGovernorates()
+        //Get
+        public IQueryable<SelectItemDto> GetGovernorateList()
         {
             var list = _context.Lookups.AsNoTracking()
                 .Where(e=>e.Type== "Governorate")
@@ -25,6 +25,17 @@ namespace EAO.BL.Services
 
             return list;
         }
+
+
+
+        //Bool
+        public bool IsGovernorateValid(int id)
+        {
+            var isValid = GetGovernorateList().AsEnumerable().Any(e => e.Id == id);
+            return isValid;
+        }
+
+
 
     }
 }

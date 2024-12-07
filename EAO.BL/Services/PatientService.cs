@@ -35,6 +35,21 @@ namespace EAO.BL.Services
             return list;
         }
 
+
+        public IEnumerable<SelectItemDto> GetNationalityList()
+        {
+            var list = _context.Lookups
+                .Where(e => e.Type == "Nationality"
+                && e.Active == true)
+                .Select(e => new SelectItemDto
+                {
+                    Id = (int)e.Id,
+                    Name = e.Name,
+                });
+
+            return list;
+        }
+
         //Add
 
         public ValidationMassageWithValueDto Add(AddPatientDto addPatientDto)
@@ -55,6 +70,7 @@ namespace EAO.BL.Services
                 NationalityId = addPatientDto.NationalID,
 
                 TicketId = addPatientDto.TicketId,  
+                CreatedBy= addPatientDto.CreatedBy
             };
 
             _context.Patients.Add(ticket);
@@ -66,6 +82,21 @@ namespace EAO.BL.Services
                 Massage = "Patient Saved Successfully",
                 ValueId = (int)ticket.Id
             };
+        }
+
+
+        //Bool
+
+        public bool IsGenderValid(int id)
+        {
+            var isValid = GetGenderList().Any(e => e.Id == id);
+            return isValid;
+        }
+
+        public bool IsNationalityValid(int id)
+        {
+            var isValid = GetNationalityList().Any(e => e.Id == id);
+            return isValid;
         }
 
     }

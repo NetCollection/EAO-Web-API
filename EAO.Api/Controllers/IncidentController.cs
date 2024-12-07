@@ -1,6 +1,5 @@
 ﻿using EAO.BL.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EAO.Api.Controllers
@@ -24,9 +23,17 @@ namespace EAO.Api.Controllers
         [Produces("application/json")]
         public IActionResult GetSubType()
         {
-            var list= _incidentService.GetSubType();
+            try
+            {
+                var list = _incidentService.GetSubTypeList();
 
-            return Ok(list);
+                return Ok(list);
+
+            }
+            catch (Exception ex)
+            {
+                return Problem();
+            }
         }
 
 

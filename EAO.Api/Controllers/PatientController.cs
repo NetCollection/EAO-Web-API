@@ -1,6 +1,5 @@
 ﻿using EAO.BL.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EAO.Api.Controllers
@@ -13,19 +12,49 @@ namespace EAO.Api.Controllers
     {
         private readonly PatientService _patientService;
 
-        public PatientController(GovernorateService patientService)
+        public PatientController(PatientService patientService)
         {
-            _patientService = _patientService;
+            _patientService = patientService;
         }
+
+        [HttpGet]
+        [Route("GetNationality")]
+        [Produces("application/json")]
+        public IActionResult GetNationality()
+        {
+            try
+            {
+                var list = _patientService.GetNationalityList();
+
+                return Ok(list);
+            }
+            catch (Exception ex) 
+            {
+                return Problem();
+            }
+
+        }
+
 
         [HttpGet]
         [Route("GetGender")]
         [Produces("application/json")]
         public IActionResult GetGender()
         {
-            var list = _patientService.GetGenderList();
+            try
+            {
+                var list = _patientService.GetGenderList();
 
-            return Ok(list);
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return Problem();
+            }
         }
+
+
+
+
     }
 }

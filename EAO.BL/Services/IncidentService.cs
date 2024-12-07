@@ -19,7 +19,7 @@ namespace EAO.BL.Services
         }
 
 
-        public IQueryable<SelectItemDto> GetSubType()
+        public IQueryable<SelectItemDto> GetSubTypeList()
         {
             //get non-emergency case only = 6
             var list = _context.IncidentCategories.AsNoTracking()
@@ -34,7 +34,13 @@ namespace EAO.BL.Services
         }
 
 
+        //Bool
 
+        public bool IsSubTypeValid(int id)
+        {
+            var isValid = GetSubTypeList().AsEnumerable().Any(e => e.Id == id);
+            return isValid;
+        }
 
 
 

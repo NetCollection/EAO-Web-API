@@ -8,9 +8,9 @@ namespace EAO.BL.DTOs.Validation
 {
     public class ValidationMassageDto
     {
-        public bool HasValidation { get; set; }
+        public bool HasValidation { get; set; }=false;
 
-        public string Massage { get; set; }
+        public string Massage { get; set; } = string.Empty;
 
     }
 }

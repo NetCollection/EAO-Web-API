@@ -1,16 +1,10 @@
 ﻿using EAO.BL.DTOs.Caller;
-using static EAO.BL.Helpers.GeneralNames;
-using EAO.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EAO.BL.DTOs.Ticket;
-using EAO.BL.DTOs.Request;
-using EAO.BL.DTOs.Validation;
-using System.Net.Sockets;
 using EAO.BL.DTOs.Patient;
+using EAO.BL.DTOs.Request;
+using EAO.BL.DTOs.Ticket;
+using EAO.BL.DTOs.Validation;
+using EAO.DAL.Models;
+using static EAO.BL.Helpers.GeneralNames;
 
 namespace EAO.BL.Services
 {
@@ -21,16 +15,28 @@ namespace EAO.BL.Services
         private readonly CallerService _callerService;
         private readonly PatientService _patientService;
 
+
+
         public RequestService(EaoNsContext eaoNsContext, TicketService ticketService, CallerService callerService, PatientService patientService)
         {
             _context = eaoNsContext;
             _ticketService = ticketService;
             _callerService = callerService;
             _patientService = patientService;
+
         }
 
         public ValidationMassageWithValueDto Add(AddRequestDto addRequestDto)
         {
+            //patient name
+
+            var createdBy = MobileApp;
+
+            if (!string.IsNullOrEmpty(addRequestDto.CreatedBy))
+            {
+                createdBy += $"-{addRequestDto.CreatedBy}";
+            }
+
             //Add Caller
 
             var callerDto = new AddCallerDto
@@ -38,9 +44,10 @@ namespace EAO.BL.Services
                 CallerName = addRequestDto.CallerName,
                 CallerPhone = addRequestDto.CallerPhone,
                 CallerOtherPhone = addRequestDto.CallerOtherPhone,
+                CreatedBy = createdBy
             };
 
-            var callerid = _callerService.Add(callerDto,  createdby).ValueId;
+            var callerid = _callerService.Add(callerDto).ValueId;
 
             //Add Ticket
 
@@ -51,6 +58,7 @@ namespace EAO.BL.Services
                 SubType = addRequestDto.SubType,
                 Address = addRequestDto.Address,
                 CallerId = callerid,
+                CreatedBy = createdBy,
             };
             var ticketId = _ticketService.Add(addTicketDto).ValueId;
 
@@ -68,9 +76,10 @@ namespace EAO.BL.Services
                 InjuryType = addRequestDto.InjuryType,
                 NationalID = addRequestDto.NationalID,
                 PassportID = addRequestDto.PassportID,
-                NationalityId= addRequestDto.NationalityId,
+                NationalityId = addRequestDto.NationalityId,
                 PatientPhone = addRequestDto.PatientPhone,
-                TicketId= ticketId,
+                TicketId = ticketId,
+                CreatedBy= createdBy,  
             };
 
             _patientService.Add(addPatientDto);
