@@ -1,4 +1,5 @@
 ﻿using EAO.BL.DTOs.User;
+using EAO.BL.Helpers;
 using EAO.DAL.Models;
 using System.Reflection.PortableExecutable;
 
@@ -12,11 +13,11 @@ namespace EAO.BL.Services
             _context = eaoNsContext;
         }
 
-        public async Task<UserVM> Login(string uname)
+        public async Task<UserVM> Login(string uname,string pwd)
         {
             UserVM userVM = new UserVM();
-
-            var user = _context.Users.Where(A => A.Name.ToLower() == uname.ToLower() && A.Active == true).FirstOrDefault();
+            var pwdencrypt = EncryptionClass.EncryptString(pwd);
+            var user = _context.Users.Where(A => A.Name.ToLower() == uname.ToLower()&&A.Password==pwdencrypt && A.Active == true).FirstOrDefault();
 
             if (user != null)
             {

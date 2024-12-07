@@ -1,4 +1,5 @@
 ﻿using EAO.BL.DTOs.User;
+using EAO.BL.Helpers;
 using EAO.BL.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -30,45 +31,47 @@ namespace EAO.Api.Controllers
         public async Task<IActionResult> UserLogin(UserDto userLoginClass)
         {
 
-            bool flag;
-            var uname = userLoginClass.UserName.ToLower();
-            string domainAndUsername = string.Concat("rayacx", "\\", uname);
-            DirectoryEntry entry = new DirectoryEntry("LDAP://rayacx.corp", domainAndUsername, userLoginClass.Password);
-            try
-            {
-                //object obj = entry.NativeObject;
-                DirectorySearcher search = new DirectorySearcher(entry)
-                {
-                    Filter = string.Concat("(SAMAccountName=", uname, ")")
-                };
-                search.PropertiesToLoad.Add("cn");
+          
+            //var t = EncryptionClass.EncryptString("MobEAO@123");
+           // var nn = EncryptionClass.DecryptString("dekbMMZiUZrnOxlClsk8SQ==");
+            //var uname = userLoginClass.UserName.ToLower();
+            //string domainAndUsername = string.Concat("rayacx", "\\", uname);
+            //DirectoryEntry entry = new DirectoryEntry("LDAP://rayacx.corp", domainAndUsername, userLoginClass.Password);
+            //try
+            //{
+            //    //object obj = entry.NativeObject;
+            //    DirectorySearcher search = new DirectorySearcher(entry)
+            //    {
+            //        Filter = string.Concat("(SAMAccountName=", uname, ")")
+            //    };
+            //    search.PropertiesToLoad.Add("cn");
 
 
-                var result = search.FindOne();
+            //    var result = search.FindOne();
 
-                if (result == null)
-                {
-                    flag = false;
-                    return NotFound("The user name or password is incorrect");
-                }
-                else
-                {
-                    flag = true;
-                }
-            }
-            catch (Exception exception)
-            {
-                flag = false;
-                return NotFound("The user name or password is incorrect");
+            //    if (result == null)
+            //    {
+            //        flag = false;
+            //        return NotFound("The user name or password is incorrect");
+            //    }
+            //    else
+            //    {
+            //        flag = true;
+            //    }
+            //}
+            //catch (Exception exception)
+            //{
+            //    flag = false;
+            //    return NotFound("The user name or password is incorrect");
 
-            }
+            //}
 
             //return flag;
-            if (flag == true)
+            //if (flag == true)
             {
                 int expiredTime = int.Parse(_configuration.GetSection("AppSettings:ExpiredTime").Value);
                 string KeyToken = _configuration.GetSection("AppSettings:Token").Value;
-                var userExist = await _LoginService.Login(userLoginClass.UserName);
+                var userExist = await _LoginService.Login(userLoginClass.UserName,userLoginClass.Password);
                 if (userExist != null && !string.IsNullOrEmpty(userExist.UserName))
                 {
                     List<Claim> claims = new List<Claim>
@@ -109,10 +112,10 @@ namespace EAO.Api.Controllers
                 }
 
             }
-            else
-            {
-                return NotFound("UserName or Password Not Vaild For LDAB");
-            }
+            //else
+            //{
+            //    return NotFound("UserName or Password Not Vaild For LDAB");
+            //}
 
         }
 
