@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,17 +26,16 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Contact = new OpenApiContact
         {
-            Email = "App-Consaltant@Rayacx.com",
+            Email = "RCX-AppConsultants@rayacx.com",
             Name = "RayaCX Development team",
-            Url = new Uri("https://api-Eao.rayacx.com"),
+            Url = new Uri("https://eao-api.rayacx.com"),
         },
-        License = new OpenApiLicense
-        {
-            Name = "Microsoft License",
-            Url = new Uri("https://api-Eao.rayacx.com")
-        },
-        TermsOfService = new Uri("https://api-Eao.rayacx.com")
     });
+
+    //documentation
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

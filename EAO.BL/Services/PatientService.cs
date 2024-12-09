@@ -68,7 +68,7 @@ namespace EAO.BL.Services
                 TypeOfInjury = addPatientDto.InjuryType,
                 Gender = addPatientDto.GenderId,
                 NationalityId = addPatientDto.NationalID,
-
+                CreatedAt = DateTime.Now,
                 TicketId = addPatientDto.TicketId,  
                 CreatedBy= addPatientDto.CreatedBy
             };
@@ -89,14 +89,21 @@ namespace EAO.BL.Services
 
         public bool IsGenderValid(int id)
         {
-            var isValid = GetGenderList().Any(e => e.Id == id);
-            return isValid;
+            var value = GetGenderList().Any(e => e.Id == id);
+            return value;
         }
 
         public bool IsNationalityValid(int id)
         {
-            var isValid = GetNationalityList().Any(e => e.Id == id);
-            return isValid;
+            var value = GetNationalityList().Any(e => e.Id == id);
+            return value;
+        }
+
+        public bool IsEgyptian(int nationalityId)
+        {
+            var value = GetNationalityList().Any(e => e.Id == nationalityId && e.Name == "مصر");
+            return value;
+
         }
 
     }

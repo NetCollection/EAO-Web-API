@@ -1,8 +1,21 @@
-﻿namespace EAO.BL.DTOs.User
+﻿using Swashbuckle.AspNetCore.Annotations;
+
+namespace EAO.BL.DTOs.User
 {
+
     public class UserDto
     {
-        public string UserName { get; set; } = string.Empty;
+        /// <summary>
+        /// Gets or sets the username used for user login.
+        /// This property is required to authenticate the user.
+        /// </summary>
+        [SwaggerSchema(Description = "Gets or sets the username used for user login.")]
+        public string Username { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the password used for user login.
+        /// This property is required to authenticate the user.
+        /// </summary>
         public string Password { get; set; } = string.Empty;
 
     }

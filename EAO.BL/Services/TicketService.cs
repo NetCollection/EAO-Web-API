@@ -34,7 +34,7 @@ namespace EAO.BL.Services
                 CaseType = 6,
                 CaseSubType = addTicketDto.SubType,
                 Priority = 88,
-                IncidentLocation = addTicketDto.Address,
+                IncidentLocation = addTicketDto.RequestAddress,
                 CallerId = addTicketDto.CallerId,
                 CreatedBy = addTicketDto.CreatedBy,
                 CreatedAt = DateTime.Now,

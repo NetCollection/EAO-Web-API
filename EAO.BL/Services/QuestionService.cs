@@ -1,4 +1,5 @@
-﻿using EAO.DAL.Models;
+﻿using EAO.BL.DTOs;
+using EAO.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,20 @@ namespace EAO.BL.Services
                 Instructions = e.Instructions,
             });
             return list;    
+        }
+
+
+        public IQueryable<SelectItemDto> GetQuestionList(string format)
+        {
+            var list = GetQuestionList()
+                .Where(e=>e.Format== format)
+                .Select(e => new SelectItemDto
+                {
+                    Id = (int)e.Id,
+                    Name = e.Question1,
+                });
+
+            return list;
         }
 
     }

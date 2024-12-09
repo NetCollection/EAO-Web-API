@@ -17,10 +17,24 @@ namespace EAO.Api.Controllers
             _patientService = patientService;
         }
 
+
+        /// <summary>
+        /// This endpoint is used to get nationalities list.
+        /// </summary>
+        /// <returns>nationalities list</returns>
+        /// <remarks>
+        /// 
+        /// Sample requset
+        /// Get Api/Patient/GetNationality
+        /// 
+        /// </remarks>
+        /// <response code="200"> Return list of IDs and names of Nationalities </response>
+        /// <response code="401">Returns Unauthorized: Authentication failed.</response>
+
         [HttpGet]
         [Route("GetNationality")]
         [Produces("application/json")]
-        public IActionResult GetNationality()
+        public IActionResult GetNationalities()
         {
             try
             {
@@ -35,6 +49,18 @@ namespace EAO.Api.Controllers
 
         }
 
+        /// <summary>
+        /// This endpoint is used to get gender IDs.
+        /// </summary>
+        /// <returns>gender IDs</returns>
+        /// <remarks>
+        /// 
+        /// Sample requset
+        /// Get Api/Patient/GetGender
+        /// 
+        /// </remarks>
+        /// <response code="200"> Return list of gender IDs </response>
+        /// <response code="401">Returns Unauthorized: Authentication failed.</response>
 
         [HttpGet]
         [Route("GetGender")]

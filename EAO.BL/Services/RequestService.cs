@@ -15,15 +15,12 @@ namespace EAO.BL.Services
         private readonly CallerService _callerService;
         private readonly PatientService _patientService;
 
-
-
         public RequestService(EaoNsContext eaoNsContext, TicketService ticketService, CallerService callerService, PatientService patientService)
         {
             _context = eaoNsContext;
             _ticketService = ticketService;
             _callerService = callerService;
             _patientService = patientService;
-
         }
 
         public ValidationMassageWithValueDto Add(AddRequestDto addRequestDto)
@@ -55,8 +52,8 @@ namespace EAO.BL.Services
             {
                 AreaId = addRequestDto.AreaId,
                 GovernorateId = addRequestDto.GovernorateId,
-                SubType = addRequestDto.SubType,
-                Address = addRequestDto.Address,
+                SubType = addRequestDto.RequestSubType,
+                RequestAddress = addRequestDto.RequestAddress,
                 CallerId = callerid,
                 CreatedBy = createdBy,
             };
@@ -74,8 +71,8 @@ namespace EAO.BL.Services
                 HospitalName2 = addRequestDto.HospitalName2,
                 HospitalName3 = addRequestDto.HospitalName3,
                 InjuryType = addRequestDto.InjuryType,
-                NationalID = addRequestDto.NationalID,
-                PassportID = addRequestDto.PassportID,
+                NationalID = addRequestDto.NationalId,
+                PassportID = addRequestDto.PassportId,
                 NationalityId = addRequestDto.NationalityId,
                 PatientPhone = addRequestDto.PatientPhone,
                 TicketId = ticketId,
@@ -83,7 +80,6 @@ namespace EAO.BL.Services
             };
 
             _patientService.Add(addPatientDto);
-
 
             return new ValidationMassageWithValueDto
             {
